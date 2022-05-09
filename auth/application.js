@@ -160,6 +160,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     please save it for future use`);
 
 
+                    let text = "Have saved your URN!\nEither OK or Cancel.";
+                    if (confirm(text) == true) {
+                        text = "You need to fill more Details!";
+                        alert(text);
+                        setTimeout(() => {
+                            window.location = "https://ggpsarwal.github.io/ggpsarwal/auth/search.html"
+                        }, 2000);
+                    } else {
+                        alert(`
+                        Your URN is : ${userData.URN} 
+                        please save it for future use`);
+                        text = "You need to fill more Details!";
+                        alert(text);
+                        setTimeout(() => {
+                            window.location = "https://ggpsarwal.github.io/ggpsarwal/auth/search.html"
+                        }, 2000);
+                    }
+
                 } else {
                     // doc.data() will be undefined in this case
                     console.log("No such document!");
@@ -176,6 +194,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
     });
+
 
 
 
