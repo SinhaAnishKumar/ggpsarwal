@@ -17,10 +17,14 @@
         <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
 
         <script src="./js/dashboard.js"></script>
-        <script src="./js/temp.js"></script>
+        <script src="./js/firebase.js"></script>
 
         <style>
-            #Credentails, #alumnitable, #studenttable{
+            #Credentails,
+            #alumnitable,
+            #studenttable,
+            #dashboard,
+            #message {
                 display: none;
             }
         </style>
@@ -30,44 +34,58 @@
 
     <body>
 
+
         <div class="container">
-            <div class="row text-center py-5">
-                <div class="col-sm-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Students</h5>
-                            <button class="btn btn-primary" onclick="getStudents();">Manage</button>
-                        </div>
+            <div id="dashboard">
+                <div class="bg-dark text-white d-flex justify-content-between py-2">
+                    <h2 class="px-5">Welcome</h2>
+                    <div class="px-5">
+                        <img src="./assets/logo_ggps.png" width="50px">
+
+                        <button class="btn btn-danger ml-5" onclick="signOut();">Sign Out</button>
                     </div>
                 </div>
-                <div class="col-sm-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Alumni</h5>
-                            <button class="btn btn-primary" onclick="getAlumni();">Manage</button>
+                <h2 class="text-center py-3">Gyan Ganga Public School</h2>
+                <p class="text-right pr-5"><button type="button" class="btn btn-outline-primary"
+                        onclick="getMessage();">Messages</button></p>
+                <div class="row text-center py-5">
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Students</h5>
+                                <button class="btn btn-primary" onclick="getStudents();" id="stuBtn">Manage</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Downloads</h5>
-                            <button class="btn btn-primary" onclick="getDownloads();">Manage</button>
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Alumni</h5>
+                                <button class="btn btn-primary" onclick="getAlumni();">Manage</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Circulars</h5>
-                            <button class="btn btn-primary" onclick="getCirculars();">Manage</button>
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Downloads</h5>
+                                <button class="btn btn-primary" onclick="getDownloads();">Manage</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Circulars</h5>
+                                <button class="btn btn-primary" onclick="getCirculars();">Manage</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div id="studenttable">
-                <table class="table table-bordered" >
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -78,12 +96,12 @@
                         </tr>
                     </thead>
                     <tbody id="studenttablebody">
-    
+
                     </tbody>
                 </table>
             </div>
             <div id="alumnitable">
-                <table class="table table-bordered" >
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -95,9 +113,75 @@
                         </tr>
                     </thead>
                     <tbody id="alumnitablebody">
-    
+
                     </tbody>
                 </table>
+            </div>
+
+            <!-- message -->
+            <div id="message">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Message</th>
+                        </tr>
+                    </thead>
+                    <tbody id="messagebody">
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- message -->
+
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <div class="pl-5 ml-5">
+                            <button type="button" class="btn btn-danger " id="delAlu">Delete Account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal2Long" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModal2LongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModal2LongTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="stuBody">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <div class="pl-5 ml-5">
+                            <button type="button" class="btn btn-danger " id="delStu">Delete Account</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
